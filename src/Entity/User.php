@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\OneToOne(mappedBy: 'trainer', cascade: ['persist', 'remove'])]
+    private ?Pokedex $pokedex = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,5 +110,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getPokedex(): ?Pokedex
+    {
+        return $this->pokedex;
+    }
+
+    public function setPokedex(Pokedex $pokedex): static
+    {
+        // set the owning side of the relation if necessary
+        if ($pokedex->getTrainer() !== $this) {
+            $pokedex->setTrainer($this);
+        }
+
+        $this->pokedex = $pokedex;
+
+        return $this;
     }
 }
