@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -33,6 +35,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Battle>
+     */
+    #[ORM\OneToMany(targetEntity: Battle::class, mappedBy: 'trainer')]
+    private Collection $battles;
+
+    public function __construct()
+    {
+        $this->battles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,5 +120,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Battle>
+     */
+    public function getBattles(): Collection
+    {
+        return $this->battles;
+    }
+
+    public function addBattle(Battle $battle): static
+    {
+        if (!$this->battles->contains($battle)) {
+            $this->battles->add($battle);
+            $battle->setTrainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBattle(Battle $battle): static
+    {
+        if ($this->battles->removeElement($battle)) {
+            // set the owning side to null (unless already changed)
+            if ($battle->getTrainer() === $this) {
+                $battle->setTrainer(null);
+            }
+        }
+
+        return $this;
     }
 }
