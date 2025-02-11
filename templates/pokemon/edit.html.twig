@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PokemonApp - Pokemon Editar{% endblock %}
+
+{% block body %}
+    <h1>Editar Pokemon</h1>
+
+    <img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokemon.name }}" width="30" height="30"/>
+    <br>
+
+    {{ include('pokemon/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <br>
+    <a href="{{ path('app_pokemon_index') }}">Volver</a>
+    <br>
+
+    {{ include('pokemon/_delete_form.html.twig') }}
+{% endblock %}

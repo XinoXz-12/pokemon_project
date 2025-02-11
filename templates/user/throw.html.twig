@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PokemonApp - Usuario Lanzar{% endblock %}
+
+{% block body %}
+    <h1>Y el resultado es...</h1>
+
+    {% if result == "si" %}
+        <p>¡Pokemon capturado!</p>
+    {% else %}
+        <p>¡Lástima! Escapó...</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ path('app_user_catch') }}">Seguir atrapando</a>.
+	<a href="{{ path('app_main') }}">Salir</a>
+    <br>
+{% endblock %}
