@@ -21,14 +21,27 @@ class Pokedex
     #[ORM\Column(nullable: true)]
     private ?int $strength = null;
 
+    #[ORM\OneToOne(inversedBy: 'pokedex', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $trainer = null;
+
+    /**
+     * @var Collection<int, Pokemon>
+     */
+    #[ORM\ManyToMany(targetEntity: Pokemon::class)]
+    private Collection $pokemon;
+
+    
     /**
      * @var Collection<int, Battle>
      */
     #[ORM\OneToMany(targetEntity: Battle::class, mappedBy: 'allyPokemon')]
     private Collection $battles;
+    
 
     public function __construct()
     {
+        $this->pokemon = new ArrayCollection();
         $this->battles = new ArrayCollection();
     }
 
@@ -57,6 +70,42 @@ class Pokedex
     public function setStrength(?int $strength): static
     {
         $this->strength = $strength;
+
+        return $this;
+    }
+
+    public function getTrainer(): ?User
+    {
+        return $this->trainer;
+    }
+
+    public function setTrainer(User $trainer): static
+    {
+        $this->trainer = $trainer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pokemon>
+     */
+    public function getPokemon(): Collection
+    {
+        return $this->pokemon;
+    }
+
+    public function addPokemon(Pokemon $pokemon): static
+    {
+        if (!$this->pokemon->contains($pokemon)) {
+            $this->pokemon->add($pokemon);
+        }
+
+        return $this;
+    }
+
+    public function removePokemon(Pokemon $pokemon): static
+    {
+        $this->pokemon->removeElement($pokemon);
 
         return $this;
     }
