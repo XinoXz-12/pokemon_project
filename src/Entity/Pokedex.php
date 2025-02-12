@@ -15,21 +15,15 @@ class Pokedex
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $level = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $strength = null;
-
     #[ORM\OneToOne(inversedBy: 'pokedex', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $trainer = null;
 
     /**
-     * @var Collection<int, Pokemon>
+     * @var Collection<int, PokedexPokemon>
      */
-    #[ORM\ManyToMany(targetEntity: Pokemon::class)]
-    private Collection $pokemon;
+    #[ORM\OneToMany(mappedBy: 'pokedex', targetEntity: PokedexPokemon::class, cascade: ['persist', 'remove'])]
+    private Collection $pokedexPokemons;
 
     
     /**
@@ -41,37 +35,13 @@ class Pokedex
 
     public function __construct()
     {
-        $this->pokemon = new ArrayCollection();
+        $this->pokedexPokemons = new ArrayCollection();
         $this->battles = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLevel(): ?int
-    {
-        return $this->level;
-    }
-
-    public function setLevel(?int $level): static
-    {
-        $this->level = $level;
-
-        return $this;
-    }
-
-    public function getStrength(): ?int
-    {
-        return $this->strength;
-    }
-
-    public function setStrength(?int $strength): static
-    {
-        $this->strength = $strength;
-
-        return $this;
     }
 
     public function getTrainer(): ?User
@@ -89,15 +59,15 @@ class Pokedex
     /**
      * @return Collection<int, Pokemon>
      */
-    public function getPokemon(): Collection
+    public function getpokedexPokemons(): Collection
     {
-        return $this->pokemon;
+        return $this->pokedexPokemons;
     }
 
     public function addPokemon(Pokemon $pokemon): static
     {
-        if (!$this->pokemon->contains($pokemon)) {
-            $this->pokemon->add($pokemon);
+        if (!$this->pokedexPokemons->contains($pokemon)) {
+            $this->pokedexPokemons->add($pokemon);
         }
 
         return $this;
@@ -105,7 +75,7 @@ class Pokedex
 
     public function removePokemon(Pokemon $pokemon): static
     {
-        $this->pokemon->removeElement($pokemon);
+        $this->pokedexPokemons->removeElement($pokemon);
 
         return $this;
     }
