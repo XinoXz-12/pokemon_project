@@ -36,8 +36,15 @@ class Pokemon
     #[ORM\OneToMany(targetEntity: Battle::class, mappedBy: 'rivalPokemon')]
     private Collection $battles;
 
+    /**
+     * @var Collection<int, PokedexPokemon>
+     */
+    #[ORM\OneToMany(mappedBy: 'pokemon', targetEntity: PokedexPokemon::class, cascade: ['persist', 'remove'])]
+    private Collection $pokedexPokemons;
+
     public function __construct()
     {
+        $this->pokedexPokemons = new ArrayCollection();
         $this->battles = new ArrayCollection();
     }
 
@@ -130,6 +137,36 @@ class Pokemon
             // set the owning side to null (unless already changed)
             if ($battle->getRivalPokemon() === $this) {
                 $battle->setRivalPokemon(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PokedexPokemon>
+     */
+    public function getPokedexPokemons(): Collection
+    {
+        return $this->pokedexPokemons;
+    }
+
+    public function addPokedexPokemon(PokedexPokemon $pokedexPokemon): static
+    {
+        if (!$this->pokedexPokemons->contains($pokedexPokemon)) {
+            $this->pokedexPokemons->add($pokedexPokemon);
+            $pokedexPokemon->setPokemon($this);
+        }
+
+        return $this;
+    }
+
+    public function removePokedexPokemon(PokedexPokemon $pokedexPokemon): static
+    {
+        if ($this->pokedexPokemons->removeElement($pokedexPokemon)) {
+            // set the owning side to null (unless already changed)
+            if ($pokedexPokemon->getPokemon() === $this) {
+                $pokedexPokemon->setPokemon(null);
             }
         }
 
