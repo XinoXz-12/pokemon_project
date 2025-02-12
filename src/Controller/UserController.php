@@ -68,8 +68,8 @@ final class UserController extends AbstractController
                 $pokedexPokemon = new PokedexPokemon();
                 $pokedexPokemon->setPokedex($pokedex);
                 $pokedexPokemon->setPokemon($pokemon);
-                $pokedexPokemon->setLevel(1); // Puedes ajustar el nivel según lo que desees
-                $pokedexPokemon->setStrength(10); // Puedes ajustar la fuerza según lo que desees
+                $pokedexPokemon->setLevel(1); 
+                $pokedexPokemon->setStrength(10);
     
                 // Persistir el objeto PokedexPokemon
                 $entityManager->persist($pokedexPokemon);

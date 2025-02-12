@@ -20,6 +20,7 @@
                     <a href="{{ path('app_user_catch') }}">Caza</a>
                     {% for role in app.user.roles %}
                         {% if role == "ROLE_USER" %}
+                            <a href="{{ path('app_pokedex') }}">Mis pokemons</a>
                             <a href="{{ path('app_pokemon_index') }}">Añadir pokemon</a>
                         {% endif %}
                     {% endfor %}
