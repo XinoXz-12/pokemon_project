@@ -25,13 +25,14 @@ class Pokedex
     #[ORM\OneToMany(mappedBy: 'pokedex', targetEntity: PokedexPokemon::class, cascade: ['persist', 'remove'])]
     private Collection $pokedexPokemons;
 
-    
+
+
     /**
      * @var Collection<int, Battle>
      */
     #[ORM\OneToMany(targetEntity: Battle::class, mappedBy: 'allyPokemon')]
     private Collection $battles;
-    
+
 
     public function __construct()
     {
@@ -64,14 +65,22 @@ class Pokedex
         return $this->pokedexPokemons;
     }
 
-    public function addPokemon(Pokemon $pokemon): static
-    {
-        if (!$this->pokedexPokemons->contains($pokemon)) {
-            $this->pokedexPokemons->add($pokemon);
-        }
+    public function addPokemon(Pokemon $pokemon, int $level, int $strength): static
+{
+    // Crear un objeto PokedexPokemon
+    $pokedexPokemon = new PokedexPokemon();
+    $pokedexPokemon->setPokedex($this);  // Establecer la relación con la Pokedex
+    $pokedexPokemon->setPokemon($pokemon);  // Establecer la relación con el Pokemon
+    $pokedexPokemon->setLevel($level);  // Asignar el nivel
+    $pokedexPokemon->setStrength($strength);  // Asignar la fuerza
 
-        return $this;
+    // Agregar el objeto PokedexPokemon a la colección
+    if (!$this->pokedexPokemons->contains($pokedexPokemon)) {
+        $this->pokedexPokemons->add($pokedexPokemon);
     }
+
+    return $this;
+}
 
     public function removePokemon(Pokemon $pokemon): static
     {

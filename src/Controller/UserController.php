@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Pokedex;
+use App\Entity\PokedexPokemon;
 use App\Entity\Pokemon;
 use App\Repository\PokemonRepository;
 use App\Repository\UserRepository;
@@ -47,14 +48,33 @@ final class UserController extends AbstractController
         $result = $raffle[0];
 
         if ($result === "si") {
-            $pokedex = new Pokedex();
-            $pokedex->setTrainer($user);
-            $pokedex->setLevel($pokemon->getLevel());
-            $pokedex->setStrength($pokemon->getStrength());
-            $pokedex->addPokemon($pokemon);
-
-            $entityManager->persist($pokedex);
-            $entityManager->flush();
+            // Verificar si ya existe una Pokedex para el usuario
+            $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
+    
+            // Si no existe una Pokedex, creamos una nueva
+            if (!$pokedex) {
+                $pokedex = new Pokedex();
+                $pokedex->setTrainer($user);
+                $entityManager->persist($pokedex);
+                $entityManager->flush();
+            }
+    
+            // Verificar si el Pokémon ya está en la Pokedex del usuario
+            $existingPokedexPokemon = $entityManager->getRepository(PokedexPokemon::class)
+                ->findOneBy(['pokedex' => $pokedex, 'pokemon' => $pokemon]);
+    
+            // Si el Pokémon no está en la Pokedex, agregarlo
+            if (!$existingPokedexPokemon) {
+                $pokedexPokemon = new PokedexPokemon();
+                $pokedexPokemon->setPokedex($pokedex);
+                $pokedexPokemon->setPokemon($pokemon);
+                $pokedexPokemon->setLevel(1); // Puedes ajustar el nivel según lo que desees
+                $pokedexPokemon->setStrength(10); // Puedes ajustar la fuerza según lo que desees
+    
+                // Persistir el objeto PokedexPokemon
+                $entityManager->persist($pokedexPokemon);
+                $entityManager->flush();
+            }
         }
 
         return $this->render('user/throw.html.twig', [
