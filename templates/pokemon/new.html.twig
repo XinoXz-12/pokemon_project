@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PokemonApp - Pokemon Nuevo{% endblock %}
+
+{% block body %}
+    <h1>Crear nuevo pokemon</h1>
+
+    {{ include('pokemon/_form.html.twig') }}
+
+    <a href="{{ path('app_pokemon_index') }}">Volver</a>
+{% endblock %}

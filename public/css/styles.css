@@ -1,0 +1,70 @@
+/* Aplicado a todo el documento */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+/* Aplicado al menú superior */
+.navbar {
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FF0000; /* Para navegadores que no soportan gradientes */
+    background-image: linear-gradient(#FF0000, #940000);
+}
+
+/* Aplicado a las opciones de menú (no zona login y registro) */
+.options-menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Aplicado a las opciones de menú (zona login y registro) */
+.options-menu-login {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Aplicado a los enlaces dentro del menú superior */
+.navbar a {
+    text-decoration: none;
+    color: #FFF;
+    font-size: 1.1rem;
+    padding: 0px 20px;
+}
+
+.navbar a:hover {
+    color: #1a1a1a;
+}
+
+b {
+    font-size: 1.1rem;
+}
+
+/* Aplicado a la parte principal bajo el menú */
+.main {
+    min-height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    padding: 70px 0px;
+}
+
+h1 {
+    color: #FF0000;
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+}
+
+.table th, td {
+    padding: 10px 25px;
+}

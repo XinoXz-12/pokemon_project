@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PokemonApp - Pokemon Índice{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_pokemon_new') }}">Crear pokemon</a>
+    <br>
+    <h1>Índice de pokemon</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id / Nº</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Imagen</th>
+                <th>Level</th>
+                <th>Strength</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pokemon in pokemon %}
+            <tr>
+                <td>{{ pokemon.id }}</td>
+                <td>{{ pokemon.name }}</td>
+                <td>{{ pokemon.type ? pokemon.type|json_encode : '' }}</td>
+                <td><img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokemon.name }}" width="30" height="30"/></td>
+                <td>{{ pokemon.level }}</td>
+                <td>{{ pokemon.strength }}</td>
+                <td>
+                    <a href="{{ path('app_pokemon_show', {'id': pokemon.id}) }}">Mostrar</a>
+                    <a href="{{ path('app_pokemon_edit', {'id': pokemon.id}) }}">Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Ningún registro encontrado</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
