@@ -34,4 +34,31 @@ final class PokedexController extends AbstractController
             'pokedexPokemons' => $pokedexPokemons,
         ]);
     }
+
+    #[Route('/pokedex/{id}', name: 'pokemon_train', methods: ['GET', 'POST'])]
+    public function train(int $id, PokedexPokemonRepository $pokedexPokemonRepository, EntityManagerInterface $entityManager): Response
+    {
+        $pokedexPokemon = $pokedexPokemonRepository->find($id);
+
+    if (!$pokedexPokemon) {
+        throw $this->createNotFoundException('El Pokémon no existe en tu Pokedex.');
+    }
+
+    // Lógica para entrenar el Pokémon: aumentar fuerza respetando el límite
+    $currentStrength = $pokedexPokemon->getStrength();
+    $level = $pokedexPokemon->getLevel();
+    $maxStrength = $level * 100; // Máxima fuerza permitida según el nivel
+
+    if ($currentStrength + 20 > $maxStrength) {
+        $pokedexPokemon->setStrength($maxStrength); // Ajustar al máximo permitido
+    } else {
+        $pokedexPokemon->setStrength($currentStrength + 20); // Aumentar fuerza en 20 puntos
+    }
+
+    // Persistir los cambios en la base de datos
+    $entityManager->persist($pokedexPokemon);
+    $entityManager->flush();
+
+        return $this->redirectToRoute('app_pokedex');
+    }
 }
