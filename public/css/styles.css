@@ -8,14 +8,22 @@
     padding: 0;
 }
 
+.center {
+    text-align: center;
+}
+
+i {
+    color: lightslategray;
+}
+
 /* Aplicado al menú superior */
 .navbar {
     height: 75px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FF0000; /* Para navegadores que no soportan gradientes */
-    background-image: linear-gradient(#FF0000, #940000);
+    background-color: #ff0000; /* Para navegadores que no soportan gradientes */
+    background-image: linear-gradient(#ff0000, #940000);
 }
 
 /* Aplicado a las opciones de menú (no zona login y registro) */
@@ -35,7 +43,7 @@
 /* Aplicado a los enlaces dentro del menú superior */
 .navbar a {
     text-decoration: none;
-    color: #FFF;
+    color: #fff;
     font-size: 1.1rem;
     padding: 0px 20px;
 }
@@ -55,16 +63,47 @@ b {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #FFF;
+    background-color: #fff;
     padding: 70px 0px;
 }
 
 h1 {
-    color: #FF0000;
+    color: #ff0000;
     font-size: 1.4rem;
     margin-bottom: 30px;
 }
 
-.table th, td {
+.table th,
+td {
     padding: 10px 25px;
+}
+
+/* Cards de pokemons */
+.container-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid red;
+    border-radius: 12px;
+
+    width: 15%;
+    min-width: 250px;
+
+    margin: 10px;
+    padding: 10px;
+}
+
+.card img {
+    width: 200px;
+    height: 200px;
 }

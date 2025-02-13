@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enfrentamiento
+{% endblock %}
+
+{% block body %}
+	<h1>Combate contra
+		{{ pokemon.name }}
+		({{ pokemon.type|join(', ') }})
+	</h1>
+
+	<div>
+		<span>Nivel:
+			{{ pokemon.level }}</span>
+            -
+		<span>Fuerza:
+			{{ pokemon.strength }}</span>
+    <div>
+
+    <br>
+
+    <img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokemon.name }}" width="200" height="200"/>
+
+    <br>
+
+    <div class="center">
+        <a href="{{ path('app_battle_select', {'id': pokemon.id}) }}">
+            <img src="https://cdn-icons-png.freepik.com/512/68/68207.png" alt="Espadas" width="50px" height="auto"/>
+        </a>
+    <div>
+
+    {% endblock %}
