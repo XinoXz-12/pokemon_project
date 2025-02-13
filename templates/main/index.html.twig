@@ -4,31 +4,33 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Mis pokemons</h1>
+	{% if app.user %}
+		<h1>Mis pokemons</h1>
 
-	<div class="container-cards">
+		<div class="container-cards">
 
-    {% if pokemons|length == 0 %}
-		<i>No tiene pokemons...</i>
-	{% else %}
-		{% for pokemon in pokemons %}
+			{% if pokemons|length == 0 %}
+				<i>No tienes pokemons...</i>
+			{% else %}
+				{% for pokemon in pokemons %}
 
-			<div class="card">
-				<img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt={{ pokemon.name }}/>
-				<h2>
-					{{ pokemon.name }}
-				</h2>
-				<div>
-					<span>Nivel:
-						{{ pokemon.level }}</span>
-					-
-					<span>Fuerza:
-						{{ pokemon.strength }}</span>
-				</div> 
-            </div>
+					<div class="card">
+						<img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt={{ pokemon.name }}/>
+						<h2>
+							{{ pokemon.name }}
+						</h2>
+						<div>
+							<span>Nivel:
+								{{ pokemon.level }}</span>
+							-
+							<span>Fuerza:
+								{{ pokemon.strength }}</span>
+						</div>
+					</div>
 
-		{% endfor %}
+				{% endfor %}
+			{% endif %}
+
+		</div>
 	{% endif %}
-
-    </div>
 {% endblock %}
