@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Cazar a {{ pokemon.name }} ({{ pokemon.type|json_encode() }})</h1>
+    <h1>Cazar a {{ pokemon.name }} ({{ pokemon.type|join(', ') }})</h1>
 
 	<img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokemon.name }}" width="200" height="200"/>
 
