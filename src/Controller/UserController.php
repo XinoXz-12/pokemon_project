@@ -51,14 +51,6 @@ final class UserController extends AbstractController
             // Verificar si ya existe una Pokedex para el usuario
             $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
     
-            // Si no existe una Pokedex, creamos una nueva
-            if (!$pokedex) {
-                $pokedex = new Pokedex();
-                $pokedex->setTrainer($user);
-                $entityManager->persist($pokedex);
-                $entityManager->flush();
-            }
-    
             // Verificar si el Pokémon ya está en la Pokedex del usuario
             $existingPokedexPokemon = $entityManager->getRepository(PokedexPokemon::class)
                 ->findOneBy(['pokedex' => $pokedex, 'pokemon' => $pokemon]);

@@ -28,7 +28,7 @@ final class PokedexController extends AbstractController
         $pokedexPokemons = $pokedexPokemonRepository->findBy(['pokedex' => $pokedex]);
 
         // Pasar a la vista los detalles de los Pokémon asociados a la Pokedex
-        return $this->render('pokedex/pokedex.html.twig', [
+        return $this->render('main/index.html.twig', [
             'pokedexPokemons' => $pokedexPokemons,
         ]);
     }
