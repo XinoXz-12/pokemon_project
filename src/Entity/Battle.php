@@ -19,7 +19,7 @@ class Battle
 
     #[ORM\ManyToOne(inversedBy: 'battles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Pokedex $allyPokemon = null;
+    private ?Pokemon $allyPokemon = null;
 
     #[ORM\ManyToOne(inversedBy: 'battles')]
     #[ORM\JoinColumn(nullable: false)]
@@ -45,12 +45,12 @@ class Battle
         return $this;
     }
 
-    public function getAllyPokemon(): ?Pokedex
+    public function getAllyPokemon(): ?Pokemon
     {
         return $this->allyPokemon;
     }
 
-    public function setAllyPokemon(?Pokedex $allyPokemon): static
+    public function setAllyPokemon(?Pokemon $allyPokemon): static
     {
         $this->allyPokemon = $allyPokemon;
 

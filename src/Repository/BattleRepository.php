@@ -16,28 +16,17 @@ class BattleRepository extends ServiceEntityRepository
         parent::__construct($registry, Battle::class);
     }
 
-    //    /**
-    //     * @return Battle[] Returns an array of Battle objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Battle
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Battle[] Returns an array of Battle objects
+     */
+    public function myBattles($trainer): array
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.trainer = :id')
+            ->setParameter('id', $trainer)
+            ->orderBy('b.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

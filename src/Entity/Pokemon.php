@@ -146,7 +146,7 @@ class Pokemon
     /**
      * @return Collection<int, PokedexPokemon>
      */
-    public function getPokedexPokemons(): Collection
+    public function getPokedexPokemons(): ?Collection
     {
         return $this->pokedexPokemons;
     }

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historial{% endblock %}
+
+{% block body %}
+    <h1>Historial de Combates</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pokémon aliado</th>
+                <th>Pokémon enemigo</th>
+                <th>Ganador</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for battle in battles %}
+            <tr>
+                <td>{{ battle.allyPokemon.getName() }}</td>
+                <td>{{ battle.rivalPokemon.getName() }}</td>
+                <td>
+                {% if battle.result == 1 %}
+                    Has ganado
+                {% else %}
+                    Has perdido
+                {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3"><i>Ningún combate disputado...</i></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

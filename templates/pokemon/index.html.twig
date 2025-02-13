@@ -24,7 +24,7 @@
             <tr>
                 <td>{{ pokemon.id }}</td>
                 <td>{{ pokemon.name }}</td>
-                <td>{{ pokemon.type ? pokemon.type|json_encode : '' }}</td>
+                <td>{{ pokemon.type|join(', ') }}</td>
                 <td><img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokemon.name }}" width="30" height="30"/></td>
                 <td>{{ pokemon.level }}</td>
                 <td>{{ pokemon.strength }}</td>
