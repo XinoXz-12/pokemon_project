@@ -8,28 +8,28 @@
 
 	<div class="container-cards">
 
-    {% if pokemons|length == 0 %}
-		<i>No tiene pokemons...</i>
-	{% else %}
-		{% for pokemon in pokemons %}
+		{% if pokemons|length == 0 %}
+			<i>No tiene pokemons...</i>
+		{% else %}
+			{% for pokemon in pokemons %}
+				<div
+					class="card">
+					<img src="https://img.pokemondb.net/artwork/{{ pokemon.pokemon.name|url_encode }}.jpg" alt={{ pokemon.pokemon.name }}/>
+					<h2>
+						{{ pokemon.pokemon.name }}
+					</h2>
+					<div>
+						<span>Nivel:
+							{{ pokemon.level }}</span>
+						-
+						<span>Fuerza:
+							{{ pokemon.strength }}</span>
+					</div>
+					<a href="{{ path('app_combat_logical', {'id_ally': pokemon.pokemon.id, 'id_enemy': id_enemy}) }}">Seleccionar</a>
+				</div>
 
-			<div class="card">
-				<img src="https://img.pokemondb.net/artwork/{{ pokemon.name|url_encode }}.jpg" alt={{ pokemon.name }}/>
-				<h2>
-					{{ pokemon.name }}
-				</h2>
-				<div>
-					<span>Nivel:
-						{{ pokemon.level }}</span>
-					-
-					<span>Fuerza:
-						{{ pokemon.strength }}</span>
-				</div> 
-				<a href="{{ path('app_combat_logical', {'id_ally': pokemon.id, 'id_enemy': id_enemy}) }}">Seleccionar</a>
-            </div>
+			{% endfor %}
+		{% endif %}
 
-		{% endfor %}
-	{% endif %}
-
-    </div>
+	</div>
 {% endblock %}

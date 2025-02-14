@@ -21,16 +21,14 @@ final class PokedexController extends AbstractController
 
         // Si no se encuentra la Pokedex, manejar el caso
         if (!$pokedex) {
-            return $this->render('pokedex/error.html.twig', [
-                'message' => 'No tienes una Pokedex asociada.',
-            ]);
+            return $this->redirectToRoute('app_user_catch');
         }
 
         // Obtener los Pokémon de la Pokedex y sacar sus nombres y fotos de pokemon
         $pokedexPokemons = $pokedexPokemonRepository->findBy(['pokedex' => $pokedex]);
 
         // Pasar a la vista los detalles de los Pokémon asociados a la Pokedex
-        return $this->render('pokedex/pokedex.html.twig', [
+        return $this->render('main/index.html.twig', [
             'pokedexPokemons' => $pokedexPokemons,
         ]);
     }
