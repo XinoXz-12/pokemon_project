@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Pokedex;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\PokedexRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +33,10 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            $pokedex = new Pokedex();
+            $pokedex->setTrainer($user);
+            $entityManager->persist($pokedex);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_login');
         }

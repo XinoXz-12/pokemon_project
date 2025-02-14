@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Battle;
 use App\Entity\Pokedex;
+use App\Entity\Pokemon;
+use App\Repository\PokedexPokemonRepository;
 use App\Repository\PokemonRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,23 +36,13 @@ final class BattleController extends AbstractController
         $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
 
         // Si no existe una Pokedex o está vacía, lo enviamos a cazar
-        if (!$pokedex /*|| $pokedex->getpokedexPokemons()->isEmpty()*/) {
+        if (!$pokedex || $pokedex->getpokedexPokemons()->isEmpty()) {
             return $this->redirectToRoute('app_user_catch');
         }
 
-        // Si tiene más de un pokemon en la pokedex, lo enviamos a elegir
+        // Me traigo los pokemon de la pokedex
+        $pokemons = $pokedex->getpokedexPokemons();
 
-        // Prueba
-        $pokemons = $pokemonRepository->findAll();
-
-        $poke1 = $pokemons[0];
-        $poke2 = $pokemons[1];
-        $poke3 = $pokemons[2];
-        $poke4 = $pokemons[3];
-        $poke5 = $pokemons[4];
-        $poke6 = $pokemons[5];
-
-        $pokemons = [$poke1, $poke2, $poke3, $poke4, $poke5, $poke6];
 
         // Me traigo la variable id pasada por el metodo get en la url
         $id = $request->query->get('id');
@@ -59,23 +51,16 @@ final class BattleController extends AbstractController
     }
 
     #[Route('/battle/finish', name: 'app_combat_logical', methods: ['GET'])]
-    public function logical(Request $request, PokemonRepository $pokemonRepository, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    public function logical(Request $request, PokemonRepository $pokemonRepository, EntityManagerInterface $entityManager, UserRepository $userRepository, PokedexPokemonRepository $pokedexPokemonRepository): Response
     {
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
         $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
-
-        // Si no existe una Pokedex, lo enviamos a cazar
-        if (!$pokedex) {
-            return $this->redirectToRoute('app_user_catch');
-        }
 
         // Me traigo el pokemon enemigo
         $enemy = $pokemonRepository->find($request->query->get('id_enemy'));
 
         // Me traigo a mi pokemon de mi pókedex
-        // $ally = $pokedex->getpokedexPokemons()->find($request->query->get('id_ally'));
-        // Prueba
-        $ally = $pokemonRepository->find("1");
+        $ally = $pokedexPokemonRepository->findBy(['pokemon' => $request->query->get('id_ally')])[0];
 
         // Calculo sus poderes
         $ally_power = $ally->getLevel() * $ally->getStrength();
@@ -90,13 +75,13 @@ final class BattleController extends AbstractController
 
         // Guardamos la información de la batalla en la base de datos
         $battle = new Battle();
-        $battle->setAllyPokemon($ally);
+        $battle->setAllyPokemon($ally->getPokemon());
         $battle->setRivalPokemon($enemy);
         $battle->setTrainer($user);
         $battle->setResult($ally_power > $enemy_power ? 1 : 0);
         $entityManager->persist($battle);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_main');
+        return $this->redirectToRoute('app_history');
     }
 }

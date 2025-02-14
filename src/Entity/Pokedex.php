@@ -97,16 +97,6 @@ class Pokedex
         return $this->battles;
     }
 
-    public function addBattle(Battle $battle): static
-    {
-        if (!$this->battles->contains($battle)) {
-            $this->battles->add($battle);
-            $battle->setAllyPokemon($this);
-        }
-
-        return $this;
-    }
-
     public function removeBattle(Battle $battle): static
     {
         if ($this->battles->removeElement($battle)) {

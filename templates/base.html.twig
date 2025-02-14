@@ -22,9 +22,8 @@
                     <a href="{{ path('app_main') }}">Home</a>
                     <a href="{{ path('app_user_catch') }}">Caza</a>
                     {% for role in app.user.roles %}
-                        {% if role == "ROLE_USER" %}
-						    <a href="{{ path('app_pokedex') }}">Mis pokemons</a>
-                            <a href="{{ path('app_pokemon_index') }}">Añadir pokemon</a>
+                        {% if role == "ROLE_ADMIN" %}
+                            <a href="{{ path('app_pokemon_index') }}">Lista pokemon</a>
 						{% endif %}
 					{% endfor %}
 					<a href="{{ path('app_battle') }}">Enfrentamiento</a>
