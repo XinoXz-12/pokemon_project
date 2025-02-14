@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Battle;
 use App\Entity\Pokedex;
-use App\Entity\Pokemon;
 use App\Repository\PokedexPokemonRepository;
 use App\Repository\PokemonRepository;
 use App\Repository\UserRepository;
@@ -28,7 +27,7 @@ final class BattleController extends AbstractController
         ]);
     }
 
-    #[Route('/battle/select', name: 'app_battle_select', methods: ['GET', 'POST'])]
+    #[Route('/battle/select', name: 'app_battle_select', methods: ['GET'])]
     public function select(UserRepository $userRepository, EntityManagerInterface $entityManager, PokemonRepository $pokemonRepository, Request $request): Response
     {
 

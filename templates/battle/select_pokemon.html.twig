@@ -1,35 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Elige pokemon
-{% endblock %}
+{% block title %}Elige pokemon{% endblock %}
 
 {% block body %}
-	<h1>Mis pokemons</h1>
+    <h1>Mis pokemons</h1>
 
-	<div class="container-cards">
+    <div class="container-cards">
+        {% if pokemons|length == 0 %}
+            <i>No tiene pokemons...</i>
+        {% else %}
+            {% for pokedexPokemon in pokemons %}
+                <div class="card">
+                    <img src="https://img.pokemondb.net/artwork/{{ pokedexPokemon.pokemon.name|url_encode }}.jpg" alt="{{ pokedexPokemon.pokemon.name }}"/>
+                    <h2>{{ pokedexPokemon.pokemon.name }}</h2>
+                    <div>
+                        <span>Nivel: {{ pokedexPokemon.level }}</span> -
+                        <span>Fuerza: {{ pokedexPokemon.strength }}</span>
+                    </div>
+                    <a href="{{ path('app_combat_logical', {'id_ally': pokedexPokemon.pokemon.id, 'id_enemy': id_enemy}) }}">Seleccionar</a>
+                </div>
+            {% endfor %}
+        {% endif %}
 
-		{% if pokemons|length == 0 %}
-			<i>No tiene pokemons...</i>
-		{% else %}
-			{% for pokemon in pokemons %}
-				<div
-					class="card">
-					<img src="https://img.pokemondb.net/artwork/{{ pokemon.pokemon.name|url_encode }}.jpg" alt={{ pokemon.pokemon.name }}/>
-					<h2>
-						{{ pokemon.pokemon.name }}
-					</h2>
-					<div>
-						<span>Nivel:
-							{{ pokemon.level }}</span>
-						-
-						<span>Fuerza:
-							{{ pokemon.strength }}</span>
-					</div>
-					<a href="{{ path('app_combat_logical', {'id_ally': pokemon.pokemon.id, 'id_enemy': id_enemy}) }}">Seleccionar</a>
-				</div>
-
-			{% endfor %}
-		{% endif %}
-
-	</div>
+    </div>
 {% endblock %}
