@@ -28,7 +28,7 @@ final class BattleController extends AbstractController
     }
 
     #[Route('/battle/select', name: 'app_battle_select', methods: ['GET'])]
-    public function select(UserRepository $userRepository, EntityManagerInterface $entityManager, PokemonRepository $pokemonRepository, Request $request): Response
+    public function select(UserRepository $userRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
 
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
@@ -39,9 +39,10 @@ final class BattleController extends AbstractController
             return $this->redirectToRoute('app_user_catch');
         }
 
-        // Me traigo los pokemon de la pokedex
-        $pokemons = $pokedex->getpokedexPokemons();
-
+        // Me traigo los pokemon de la pokedex solo los que esten activos
+        $pokemons = $pokedex->getpokedexPokemons()->filter(function ($pokedexPokemon) {
+            return $pokedexPokemon->getState() === 'activo';
+        });
 
         // Me traigo la variable id pasada por el metodo get en la url
         $id = $request->query->get('id');
@@ -68,6 +69,13 @@ final class BattleController extends AbstractController
         // El pokemon con el mayor poder gana, si gana el ally le suma 1 nivel
         if ($ally_power > $enemy_power) {
             $ally->setLevel($ally->getLevel() + 1);
+            $entityManager->persist($ally);
+            $entityManager->flush();
+
+        }else 
+        {
+            // modificar el campo state del pokemon aliado a inactivo si se pierde la batalla 
+            $ally->setState('inactivo');
             $entityManager->persist($ally);
             $entityManager->flush();
         }
