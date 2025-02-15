@@ -8,7 +8,7 @@
 
 		<h1>Tu Pokedex</h1>
 
-		{% if pokedexPokemons is empty %}
+		{% if pokedexPokemons is empty or pokedexPokemons == false %}
 			<p>No tienes ningún Pokémon en tu Pokedex.</p>
 		{% else %}
 			<div class="container-cards">
@@ -28,9 +28,13 @@
 							<b>Fuerza:</b>
 							{{ pokedexPokemon.strength }}</p><br>
 
-						<form action="{{ path('pokemon_train', {'id': pokedexPokemon.id}) }}" method="POST">
-							<button type="submit" class="btn btn-primary">Entrenar</button>
-						</form>
+						{% if pokedexPokemon.injured == false %}
+							<form action="{{ path('pokemon_train', {'id': pokedexPokemon.id}) }}" method="POST">
+								<button type="submit" class="btn btn-primary">Entrenar</button>
+							</form>
+						{% else %}
+							<p>Debilitado</p>
+						{% endif %}
 					</div>
 					<br><br>
 				{% endfor %}

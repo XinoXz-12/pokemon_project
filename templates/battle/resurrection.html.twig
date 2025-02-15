@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pokemon - Resucitar
+{% endblock %}
+
+{% block body %}
+	{% if app.user %}
+
+		<h1>Tu Pokedex</h1>
+
+		{% if pokedexPokemons is empty or pokedexPokemons == false %}
+			<p>No tienes ningún Pokémon en tu Pokedex.</p>
+		{% else %}
+			<div class="container-cards">
+				{% for pokedexPokemon in pokedexPokemons %}
+                    {% if pokedexPokemon.injured == true %}
+                        <div class="card">
+                            <p>
+                                <b>Nombre:</b>
+                                {{ pokedexPokemon.pokemon.name }}</p><br>
+                            <p>
+                                <b>Tipo:</b>
+                                {{ pokedexPokemon.pokemon.type ? pokedexPokemon.pokemon.type|join(', ') : 'No especificado' }}</p><br>
+                            <p><img src="https://img.pokemondb.net/artwork/{{ pokedexPokemon.pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokedexPokemon.pokemon.name }}" width="100" height="100"/></p><br>
+                            <p>
+                                <b>Nivel:</b>
+                                {{ pokedexPokemon.level }}</p><br>
+                            <p>
+                                <b>Fuerza:</b>
+                                {{ pokedexPokemon.strength }}</p><br>
+
+                            <form action="{{ path('app_battle_resurrection_ok', {'id': pokedexPokemon.id}) }}" method="POST">
+                                <button type="submit" class="btn btn-primary">Resucitar</button>
+                            </form>
+                        </div>
+                    {% endif %}
+					<br><br>
+				{% endfor %}
+			</div>
+		{% endif %}
+	{% endif %}
+{% endblock %}

@@ -25,7 +25,13 @@
 						<span>Fuerza:
 							{{ pokemon.strength }}</span>
 					</div>
-					<a href="{{ path('app_combat_logical', {'id_ally': pokemon.pokemon.id, 'id_enemy': id_enemy}) }}">Seleccionar</a>
+					{% if pokemon.injured == false %}
+						<a href="{{ path('app_combat_logical', {'id_ally': pokemon.pokemon.id, 'id_enemy': id_enemy, 'reward': reward}) }}">Seleccionar</a>
+					{% else %}
+					<div>
+						<span>Debilitado</span>
+					</div>
+					{% endif %}
 				</div>
 
 			{% endfor %}

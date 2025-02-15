@@ -73,6 +73,7 @@ class Pokedex
     $pokedexPokemon->setPokemon($pokemon);  // Establecer la relación con el Pokemon
     $pokedexPokemon->setLevel($level);  // Asignar el nivel
     $pokedexPokemon->setStrength($strength);  // Asignar la fuerza
+    $pokedexPokemon->setInjured(false);  // Asignar que no está debilitado
 
     // Agregar el objeto PokedexPokemon a la colección
     if (!$this->pokedexPokemons->contains($pokedexPokemon)) {

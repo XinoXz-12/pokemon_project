@@ -18,7 +18,11 @@ final class MainController extends AbstractController
     {
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
         $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
-        $pokemons = $pokedex->getpokedexPokemons();
+        if ($pokedex) {
+            $pokemons = $pokedex->getpokedexPokemons();
+        } else {
+            $pokemons = null;
+        }
 
         return $this->render('main/index.html.twig', [
             'pokedexPokemons' => $pokemons,

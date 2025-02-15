@@ -27,6 +27,9 @@ class PokedexPokemon
     #[ORM\Column]
     private ?int $strength = null;
 
+    #[ORM\Column]
+    private ?bool $injured = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class PokedexPokemon
     public function setStrength(int $strength): static
     {
         $this->strength = $strength;
+
+        return $this;
+    }
+
+    public function isInjured(): ?bool
+    {
+        return $this->injured;
+    }
+
+    public function setInjured(bool $injured): static
+    {
+        $this->injured = $injured;
 
         return $this;
     }

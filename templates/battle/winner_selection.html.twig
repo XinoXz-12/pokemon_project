@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Elige recompensa
+{% endblock %}
+
+{% block body %}
+	<h1>Elige recompensa al ganar</h1>
+
+	<div class="container-cards">
+		<div
+			class="card">
+			<a href="{{ path('app_battle_select', {'id': id_enemy, 'reward': 'level'}) }}">
+				<img src="../images/uplevel.jpg" alt="Imagen de una flecha de subir nivel" />
+			</a>
+			<br>
+			<h2>Subir de nivel</h2>
+		</div>
+		<div
+			class="card">
+			<a href="{{ path('app_battle_select', {'id': id_enemy, 'reward': 'catch'}) }}">
+				<img src="../images/pokeball.jpg" alt="Imagen de una pokeball" />
+			</a>
+			<br>
+			<h2>Cazar al pokemon<h2>
+		</div>
+		<div
+			class="card">
+			<a href="{{ path('app_battle_select', {'id': id_enemy, 'reward': 'cure'}) }}">
+				<img src="../images/cure.jpg" alt="Imagen de una cruz de curar" />
+			</a>
+			<br>
+			<h2>Resucitar un pokemon</h2>
+		</div>
+	</div>
+{% endblock %}
