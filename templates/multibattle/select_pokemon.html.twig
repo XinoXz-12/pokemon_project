@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Elige tu equipo
+{% endblock %}
+
+{% block body %}
+	<h1>Mi pókedex</h1>
+
+	<p>Selecciona
+		{{ select }}
+		pokemons</p>
+
+	<div class="container-cards">
+
+		{% if pokemons|length == 0 %}
+			<i>No tienes pokemones...</i>
+		{% else %}
+			<form method="POST" action="{{ path('check_team') }}">
+				<div class="container-cards">
+					{% for pokemon in pokemons %}
+						<div class="card">
+							<img src="https://img.pokemondb.net/artwork/{{ pokemon.pokemon.name|url_encode }}.jpg" alt={{ pokemon.pokemon.name }}/>
+							<h2>
+								{{ pokemon.pokemon.name }}
+							</h2>
+							<div>
+								<span>Nivel:
+									{{ pokemon.level }}</span>
+								-
+								<span>Fuerza:
+									{{ pokemon.strength }}</span>
+							</div>
+							{% if pokemon.injured == false %}
+								<input type="checkbox" name="pokemon[]" value={{ pokemon.id }}>
+							{% else %}
+								<div>
+									<span>Debilitado</span>
+								</div>
+							{% endif %}
+						</div>
+
+					{% endfor %}
+
+				</div>
+				<input type="hidden" name="select" value="{{ select }}">
+				<div class="center">
+					<input type="button" value="Listo!"></input>
+			</div>
+		</form>
+	{% endif %}
+
+</div>{% endblock %}

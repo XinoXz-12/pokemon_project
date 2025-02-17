@@ -30,7 +30,7 @@
                                 {{ pokedexPokemon.strength }}</p><br>
 
                             <form action="{{ path('app_battle_resurrection_ok', {'id': pokedexPokemon.id}) }}" method="POST">
-                                <button type="submit" class="btn btn-primary">Resucitar</button>
+                                <button type="submit">Resucitar</button>
                             </form>
                         </div>
                     {% endif %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pokedex;
 use App\Entity\PokedexPokemon;
 use App\Entity\Pokemon;
+use App\Entity\User;
 use App\Repository\PokemonRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;

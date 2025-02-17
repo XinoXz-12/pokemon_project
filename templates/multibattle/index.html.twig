@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duelos
+{% endblock %}
+
+{% block body %}
+	<div class="container-cards gap-20">
+		{# {{ dump(multibattles) }} #}
+
+		<div>
+			<h1>Abrir duelo<h1>
+
+					{% if app.user.isOpenBattle() == false %}
+						<a href="{{ path('app_user_open_battle', { 'type': 1 }) }}">
+							1vs1
+						</a>
+						<br>
+						<a href="{{ path('app_user_open_battle', { 'type': 3 }) }}">
+							3vs3
+						</a>
+						<br>
+						<a href="{{ path('app_user_open_battle', { 'type': 5 }) }}">
+							6vs6
+						</a>
+					{% else %}
+						<a href="{{ path('app_user_close_battle') }}">
+							Retirarse
+						</a>
+					{% endif %}
+				</div>
+				<div>
+					<h1>Duelos disponibles<h1>
+
+							<div class="container-cards">
+								{% if multibattles is not defined %}
+									<i>No hay duelos disposibles...</i>
+									{% else %}
+										{% for multibattle in multibattles %}
+											<a href="{{ path('app_multibattle_start', { 'battle': multibattle.id }) }}">
+												<div class="card">
+												<h2>
+													{{ multibattle.allyTrainer.username }}
+												</h2>
+												<p>Tipo de duelo:
+													{{ multibattle.type }}vs{{ multibattle.type }}
+												</p>
+											</div>
+											</a>
+										{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+					</div>
+
+				{% endblock %}

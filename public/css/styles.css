@@ -107,3 +107,12 @@ td {
     width: 200px;
     height: 200px;
 }
+
+.gap-20 {
+    gap: 20%;
+}
+
+.small {
+    transition: all;
+    transform: scale(0.5);
+}
