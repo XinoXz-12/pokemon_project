@@ -27,15 +27,22 @@
 						<p>
 							<b>Fuerza:</b>
 							{{ pokedexPokemon.strength }}</p><br>
-
 						{% if pokedexPokemon.injured == false %}
-							<form action="{{ path('pokemon_train', {'id': pokedexPokemon.id}) }}" method="POST">
-								<button type="submit" class="btn btn-primary">Entrenar</button>
-							</form>
-						{% else %}
+						<div>
+							<a href="{{ path('pokemon_train', {'id': pokedexPokemon.id}) }}">
+								<img src="{{ asset('images/icon-train.png') }}" style="width: 50px; height: 50px;" alt="Entrenar" />
+							</a>
+						</div>
+						{% if pokedexPokemon.level >= 7  and pokedexPokemon.pokemon.evolution is not null %}
+						<div class="evolution">
+								<img src="{{ asset('images/poke-open.png') }}" style="width: 25px; height: 25px;" alt="pokeball" />
+								<a href="{{path('pokemon_evolve', {'id': pokedexPokemon.id})}}">Evolucionar</a>
+						</div>
+							{% endif %}
+					</div>
+					{% else %}
 							<p>Debilitado</p>
 						{% endif %}
-					</div>
 					<br><br>
 				{% endfor %}
 			</div>

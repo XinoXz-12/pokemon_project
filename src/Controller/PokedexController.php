@@ -1,8 +1,10 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Pokemon;
 use App\Repository\PokedexPokemonRepository;
 use App\Repository\PokedexRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,4 +61,23 @@ final class PokedexController extends AbstractController
 
         return $this->redirectToRoute('app_pokedex');
     }
+
+    #[Route('/pokedex/{id}/evolve', name: 'pokemon_evolve', methods: ['GET','POST'])]
+    public function evolve(int $id, PokedexPokemonRepository $pokedexPokemonRepository, EntityManagerInterface $entityManager): Response
+    {
+        $pokedexPokemon = $pokedexPokemonRepository->find($id);
+
+        $pokemonEvolucionado = $entityManager->getRepository(Pokemon::class)->find($pokedexPokemon->getPokemon()->getEvolution());
+
+        
+        if ($pokemonEvolucionado) {
+            $pokedexPokemon->setPokemon($pokemonEvolucionado); 
+            $entityManager->flush();
+        $this->addFlash('success', '¡Tu Pokémon ha evolucionado!');
+        } else {
+            $this->addFlash('danger', 'No se encontró la evolución del Pokémon.');
+        }
+
+        return $this->redirectToRoute('app_pokedex');
+        }
 }

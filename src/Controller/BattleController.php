@@ -47,7 +47,7 @@ final class BattleController extends AbstractController
     }
 
     #[Route('/battle/select', name: 'app_battle_select', methods: ['GET'])]
-    public function select(UserRepository $userRepository, EntityManagerInterface $entityManager, PokemonRepository $pokemonRepository, Request $request): Response
+    public function select(UserRepository $userRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
         $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
@@ -57,7 +57,7 @@ final class BattleController extends AbstractController
             return $this->redirectToRoute('app_user_catch');
         }
 
-        // Me traigo los pokemon de la pokedex
+        // Me traigo todos los pokemons de la pokedex
         $pokemons = $pokedex->getpokedexPokemons();
 
         // Me traigo la variable id pasada por el metodo get en la url
@@ -160,6 +160,7 @@ final class BattleController extends AbstractController
             $ally->setInjured(true);
             $entityManager->persist($ally);
             $entityManager->flush();
+
         }
 
         // Guardamos la información de la batalla en la base de datos
