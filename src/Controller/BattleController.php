@@ -85,7 +85,7 @@ final class BattleController extends AbstractController
         ]);
     }
 
-    #[Route('/battle/resurrection/ok', name: 'app_battle_resurrection_ok', methods: ['GET'])]
+    #[Route('/battle/resurrection/ok', name: 'app_battle_resurrection_ok', methods: ['POST'])]
     public function resurrection_ok(UserRepository $userRepository, PokedexPokemonRepository $pokedexPokemonRepository, EntityManagerInterface $entityManager, PokemonRepository $pokemonRepository, Request $request): Response
     {
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
@@ -96,7 +96,7 @@ final class BattleController extends AbstractController
         foreach($pokedexPokemons as $pokedexPokemon) {
             if ($pokedexPokemon->getId() == $request->query->get('id')) {
                 // Dejar de estar herido/debilitado
-                $pokedexPokemonInjured = $entityManager->getRepository(PokedexPokemon::class)->findOneBy(['pokemon' => $pokedexPokemon->getId()]);
+                $pokedexPokemonInjured = $entityManager->getRepository(PokedexPokemon::class)->find($pokedexPokemon->getId());
                 $pokedexPokemonInjured->setInjured(false);
                 $entityManager->persist($pokedexPokemonInjured);
                 $entityManager->flush();
