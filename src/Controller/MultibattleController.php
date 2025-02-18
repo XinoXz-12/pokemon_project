@@ -144,8 +144,12 @@ final class MultibattleController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        // Traerme a mis pokemons
+        $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
+        $pokemons = $pokedex->getpokedexPokemons();
+
         // Me voy a elegir mis pokemons
-        return $this->render('multibattle/select_pokemon.html.twig', ['select' => $multibattle->getType()]);
+        return $this->render('multibattle/select_pokemon.html.twig', ['select' => $multibattle->getType(), 'pokemons' => $pokemons]);
     }
 
     #[Route('/multibattle/order', name: 'order_pokemons', methods: ['POST'])]
@@ -243,7 +247,7 @@ final class MultibattleController extends AbstractController
     public function duelResultAction(Request $request, Multibattle $multibattle, EntityManagerInterface $entityManager)
     {
         $select = $request->get('select');
-    
+
         if ($select == 'level_up') {
             // Subir 1 level a todos los pokemons del ganador
             foreach ($multibattle->getAllyPokearray() as $pokemon) {
@@ -256,15 +260,15 @@ final class MultibattleController extends AbstractController
 
         // Obtener los pokemons modificados
         $pokemons = $multibattle->getAllyPokearray();
-        
+
         // Mergear los pokemons modificados con la base de datos
         foreach ($pokemons as $pokemon) {
             $entityManager->persist($pokemon, ['merge' => true]);
         }
-        
+
         // Guardar los cambios
         $entityManager->flush();
-    
+
         return $this->render('multibattle/message.html.twig', ['message' => "Todo correcto, feliciades!"]);
     }
 }
