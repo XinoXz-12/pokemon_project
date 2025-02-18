@@ -39,11 +39,8 @@ final class BattleController extends AbstractController
             return $this->redirectToRoute('app_user_catch');
         }
 
-        // Me traigo los pokemon de la pokedex solo los que esten activos
-        $pokemons = $pokedex->getpokedexPokemons()->filter(function ($pokedexPokemon) {
-            return $pokedexPokemon->getState() === 'activo';
-        });
-
+        // Me traigo todos los pokemons de la pokedex
+        $pokemons = $pokedex->getpokedexPokemons();
         // Me traigo la variable id pasada por el metodo get en la url
         $id = $request->query->get('id');
 
@@ -72,12 +69,6 @@ final class BattleController extends AbstractController
             $entityManager->persist($ally);
             $entityManager->flush();
 
-        }else 
-        {
-            // modificar el campo state del pokemon aliado a inactivo si se pierde la batalla 
-            $ally->setState('inactivo');
-            $entityManager->persist($ally);
-            $entityManager->flush();
         }
 
         // Guardamos la información de la batalla en la base de datos

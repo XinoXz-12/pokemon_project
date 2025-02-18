@@ -27,9 +27,6 @@ class PokedexPokemon
     #[ORM\Column]
     private ?int $strength = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $state = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -79,18 +76,6 @@ class PokedexPokemon
     public function setStrength(int $strength): static
     {
         $this->strength = $strength;
-
-        return $this;
-    }
-
-    public function getState(): ?string
-    {
-        return $this->state;
-    }
-
-    public function setState(string $state): static
-    {
-        $this->state = $state;
 
         return $this;
     }

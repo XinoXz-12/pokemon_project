@@ -107,3 +107,26 @@ td {
     width: 200px;
     height: 200px;
 }
+
+/* Aplicado a los botones de evolución*/
+
+.evolution {
+    background-color: #ffa341;
+    border: 1px solid #ffa341;
+    border-radius: 5px;
+}
+
+.evolution a {
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.evolution:hover {
+    background-color: #ff8c00;
+    border: 1px solid #ff8c00;
+}
+
+.evolution:hover a {
+    color: #595959;
+}
