@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Elige tu recompensa
+{% endblock %}
+
+{% block body %}
+	<h1>Elige tu recompensa</h1>
+
+	<div class="container-cards">
+		<div
+			class="card">
+			<a href="{{ path('duel_result_action', {'select': "level_up"}) }}">
+				<img src="../images/uplevel.jpg" alt="Imagen de una flecha de subir nivel" />
+			</a>
+			<br>
+			<h2>Subir de nivel</h2>
+		</div>
+		<div
+			class="card">
+			<a href="{{ path('duel_result_action', {'select': 'revive'}) }}">
+				<img src="../images/cure.jpg" alt="Imagen de una cruz de curar" />
+			</a>
+			<br>
+			<h2>Revivir aliados</h2>
+		</div>
+	</div>
+
+{% endblock %}

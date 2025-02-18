@@ -130,3 +130,12 @@ td {
 .evolution:hover a {
     color: #595959;
 }
+
+.gap-20 {
+    gap: 20%;
+}
+
+.small {
+    transition: all;
+    transform: scale(0.5);
+}

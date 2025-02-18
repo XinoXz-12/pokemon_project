@@ -45,9 +45,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Battle::class, mappedBy: 'trainer')]
     private Collection $battles;
 
+    /**
+     * @var Collection<int, Multibattle>
+     */
+    #[ORM\OneToMany(targetEntity: Multibattle::class, mappedBy: 'ally_trainer')]
+    private Collection $multibattles;
+
+    #[ORM\Column]
+    private ?bool $open_battle = false;
+
     public function __construct()
     {
         $this->battles = new ArrayCollection();
+        $this->multibattles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +178,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $battle->setTrainer(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Multibattle>
+     */
+    public function getMultibattles(): Collection
+    {
+        return $this->multibattles;
+    }
+
+    public function addMultibattle(Multibattle $multibattle): static
+    {
+        if (!$this->multibattles->contains($multibattle)) {
+            $this->multibattles->add($multibattle);
+            $multibattle->setAllyTrainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMultibattle(Multibattle $multibattle): static
+    {
+        if ($this->multibattles->removeElement($multibattle)) {
+            // set the owning side to null (unless already changed)
+            if ($multibattle->getAllyTrainer() === $this) {
+                $multibattle->setAllyTrainer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isOpenBattle(): ?bool
+    {
+        return $this->open_battle;
+    }
+
+    public function setOpenBattle(bool $open_battle): static
+    {
+        $this->open_battle = $open_battle;
 
         return $this;
     }

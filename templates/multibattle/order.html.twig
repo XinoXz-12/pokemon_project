@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ordenar Pokemons
+{% endblock %}
+
+{% block body %}
+	<h1>Ordenar Pokemons</h1>
+
+	<div class="Container-cards gap-20">
+		<div>
+			<h2>Mis Pokemons</h2>
+			<div class="card">
+				{% for pokedexPokemon in my_team %}
+					<div class="card">
+						<p>
+							<b>Nombre:</b>
+							{{ pokedexPokemon.pokemon.name }}</p><br>
+						<p>
+							<b>Tipo:</b>
+							{{ pokedexPokemon.pokemon.type ? pokedexPokemon.pokemon.type|join(', ') : 'No especificado' }}</p><br>
+						<p><img src="https://img.pokemondb.net/artwork/{{ pokedexPokemon.pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokedexPokemon.pokemon.name }}" width="100" height="100"/></p><br>
+						<p>
+							<b>Nivel:</b>
+							{{ pokedexPokemon.level }}</p><br>
+						<p>
+							<b>Fuerza:</b>
+							{{ pokedexPokemon.strength }}</p><br>
+
+						{% if pokedexPokemon.injured == false %}
+							<form action="{{ path('pokemon_train', {'id': pokedexPokemon.id}) }}" method="POST">
+								<button type="submit" class="btn btn-primary">Entrenar</button>
+							</form>
+						{% else %}
+							<p>Debilitado</p>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div>
+			<h2>Pokemons del Rival</h2>
+			<div class="card small">
+				{% for pokedexPokemon in rival_team %}
+					<div class="card">
+						<p>
+							<b>Nombre:</b>
+							{{ pokedexPokemon.pokemon.name }}</p><br>
+						<p>
+							<b>Tipo:</b>
+							{{ pokedexPokemon.pokemon.type ? pokedexPokemon.pokemon.type|join(', ') : 'No especificado' }}</p><br>
+						<p><img src="https://img.pokemondb.net/artwork/{{ pokedexPokemon.pokemon.name|url_encode }}.jpg" alt="Imagen de {{ pokedexPokemon.pokemon.name }}" width="100" height="100"/></p><br>
+						<p>
+							<b>Nivel:</b>
+							{{ pokedexPokemon.level }}</p><br>
+						<p>
+							<b>Fuerza:</b>
+							{{ pokedexPokemon.strength }}</p><br>
+
+						{% if pokedexPokemon.injured == false %}
+							<form action="{{ path('pokemon_train', {'id': pokedexPokemon.id}) }}" method="POST">
+								<button type="submit" class="btn btn-primary">Entrenar</button>
+							</form>
+						{% else %}
+							<p>Debilitado</p>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<form action="{{ path('order_pokemons') }}" method="post">
+		{% for i in 1..type %}
+			<label for="pokemon{{ i }}">Pokemon
+				{{ i }}:</label>
+			<select id="pokemon{{ i }}" name="pokemon[]">
+				{% for pokemon in my_team %}
+					<option value="{{ pokemon.id }}">{{ pokemon.name }}</option>
+				{% endfor %}
+			</select>
+		{% endfor %}
+
+		<input type="hidden" name="multibattle_id" value="{{ multibattle }}">
+		<button type="submit">Listo!</button>
+	</form>
+{% endblock %}
