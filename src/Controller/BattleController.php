@@ -30,7 +30,7 @@ final class BattleController extends AbstractController
     }
 
     #[Route('/battle/winner', name: 'app_battle_winner_selection', methods: ['GET'])]
-    public function winner(UserRepository $userRepository, EntityManagerInterface $entityManager, PokemonRepository $pokemonRepository, Request $request): Response
+    public function winner(UserRepository $userRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
         $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
@@ -70,7 +70,7 @@ final class BattleController extends AbstractController
     }
 
     #[Route('/battle/resurrection', name: 'app_battle_resurrection', methods: ['GET'])]
-    public function resurrection(UserRepository $userRepository, EntityManagerInterface $entityManager, PokemonRepository $pokemonRepository, Request $request): Response
+    public function resurrection(UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
         $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
@@ -85,8 +85,8 @@ final class BattleController extends AbstractController
         ]);
     }
 
-    #[Route('/battle/resurrection/ok', name: 'app_battle_resurrection_ok', methods: ['GET'])]
-    public function resurrection_ok(UserRepository $userRepository, PokedexPokemonRepository $pokedexPokemonRepository, EntityManagerInterface $entityManager, PokemonRepository $pokemonRepository, Request $request): Response
+    #[Route('/battle/resurrection/ok', name: 'app_battle_resurrection_ok', methods: ['POST'])]
+    public function resurrection_ok(UserRepository $userRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
         $user = $userRepository->findOneBy(array('id' => $this->getUser()));
         $pokedex = $entityManager->getRepository(Pokedex::class)->findOneBy(['trainer' => $user]);
@@ -96,10 +96,13 @@ final class BattleController extends AbstractController
         foreach($pokedexPokemons as $pokedexPokemon) {
             if ($pokedexPokemon->getId() == $request->query->get('id')) {
                 // Dejar de estar herido/debilitado
-                $pokedexPokemonInjured = $entityManager->getRepository(PokedexPokemon::class)->findOneBy(['pokemon' => $pokedexPokemon->getId()]);
-                $pokedexPokemonInjured->setInjured(false);
-                $entityManager->persist($pokedexPokemonInjured);
-                $entityManager->flush();
+                $pokedexPokemonInjured = $entityManager->getRepository(PokedexPokemon::class)->find($pokedexPokemon->getId());
+        
+                if ($pokedexPokemonInjured) {
+                    $pokedexPokemonInjured->setInjured(false);
+                    $entityManager->persist($pokedexPokemonInjured);
+                    $entityManager->flush();
+                }
             }
         }
 
